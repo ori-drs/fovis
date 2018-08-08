@@ -187,6 +187,15 @@ VisualOdometry::processFrame(const uint8_t* gray, DepthSource* depth_source)
   // detect features in new frame
   _cur_frame->prepareFrame(gray, _fast_threshold, depth_source);
 
+  // added to detect when there are no valid keypoints
+  // this can occur if there is not any valid depth data (e.g. a blank depth image)
+  if(_cur_frame->getNumKeypoints() == 0) {
+    _estimator->setMotionEstimateAsNoData();
+    _change_reference_frames = true;
+    _frame_count = 0;
+    return;
+  }
+
   const CameraIntrinsicsParameters& input_camera = _rectification->getInputCameraParameters();
   int width = input_camera.width;
   int height = input_camera.height;

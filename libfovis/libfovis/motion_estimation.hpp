@@ -46,6 +46,13 @@ class MotionEstimator
                         const Eigen::Isometry3d &init_motion_est,
                         const Eigen::MatrixXd &init_motion_cov);
 
+    // added to enable a reset from the parent class (VisualOdometry)
+    // when there is no valid keypoints (due to missing depth data)
+    // Use very sparingly as it should not be exposed
+    void setMotionEstimateAsNoData() {
+      _estimate_status = NO_DATA;
+    }
+
     bool isMotionEstimateValid() const {
       return _estimate_status == SUCCESS;
     }
