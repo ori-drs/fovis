@@ -142,7 +142,7 @@ class Rectification
         wright * wbottom
       };
 
-      int ra_index = v * _input_camera.width + u;
+      uint32_t ra_index = v * _input_camera.width + u;
       uint32_t neighbor_indices[4] = {
         ra_index,
         ra_index + 1,
